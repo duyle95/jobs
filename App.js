@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
 import {
   createBottomTabNavigator,
   createStackNavigator,
 } from 'react-navigation';
+import { View, YellowBox } from 'react-native';
+import { Provider } from 'react-redux';
 
+import stores from './store';
 import ReviewScreen from './screens/ReviewScreen';
 import AuthScreen from './screens/AuthScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import MapScreen from './screens/MapScreen';
 import DeckScreen from './screens/DeckScreen';
 import SettingsScreen from './screens/SettingsScreen';
+
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 export default class App extends Component {
   render() {
@@ -29,17 +33,25 @@ export default class App extends Component {
           },
         }),
       },
+    }, {
+      navigationOptions: {
+        tabBarVisible: false
+      },
+      lazy: true
     });
 
-    return <MainNavigator />;
+    return (
+      <Provider store={stores}>
+        <View style={styles.container}>
+          <MainNavigator />
+        </View>
+      </Provider>
+    )
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  }
+}
