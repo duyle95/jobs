@@ -31,6 +31,12 @@ export default class App extends Component {
               settings: { screen: SettingsScreen },
             }),
           },
+        }, {
+          tabBarOptions: 'bottom',
+          swipeEnabled: false,
+          tabBarOptions: {
+            labelStyle: { fontSize: 12 }
+          }
         }),
       },
     }, {
