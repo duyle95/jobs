@@ -1,13 +1,15 @@
+import { Notifications } from 'expo';
 import React, { Component } from 'react';
 import {
   createBottomTabNavigator,
   createStackNavigator,
 } from 'react-navigation';
-import { View, YellowBox } from 'react-native';
+import { View, YellowBox, Alert } from 'react-native';
 import { Provider } from 'react-redux';
 import { Icon } from 'react-native-elements';
 
-import stores from './store';
+import registerForNotifications from './services/push_notifications';
+import store from './store';
 import ReviewScreen from './screens/ReviewScreen';
 import AuthScreen from './screens/AuthScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
@@ -21,6 +23,21 @@ YellowBox.ignoreWarnings([
 ]);
 
 export default class App extends Component {
+  componentDidMount() {
+    registerForNotifications();
+    Notifications.addListener((notification) => {
+      const { data: { text }, origin } = notification;
+
+      if (origin === 'received' && text) {
+        Alert.alert(
+          'New Push Notifications',
+          text,
+          [{ text: 'Ok.' }]
+        );
+      }
+    });
+  }
+
   render() {
     const MainNavigator = createBottomTabNavigator(
       {
@@ -59,10 +76,10 @@ export default class App extends Component {
     );
 
     return (
-      <Provider store={stores}>
-        <View style={styles.container}>
-          <MainNavigator />
-        </View>
+      <Provider store={store}>
+          <View style={styles.container}>
+            <MainNavigator />
+          </View>
       </Provider>
     );
   }
