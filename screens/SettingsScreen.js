@@ -6,10 +6,8 @@ import * as actions from '../actions';
 
 class SettingsScreen extends Component {
   static navigationOptions = {
-    header: {
-      style: {
-        marginTop: Platform.OS === 'android' ? 24 : 0
-      }
+    headerStyle: {
+      marginTop: Platform.OS === 'android' ? 24 : 0
     }
   }
 

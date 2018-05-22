@@ -6,12 +6,7 @@ import { connect } from 'react-redux';
 
 class ReviewScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Review Title',
-    tabBar: {
-      icon: ({ tintColor }) => {
-        return <Icon name="favorite" size={30} color={tintColor} />
-      }
-    },
+    headerTitle: 'Review',
     headerRight: (
       <Button
         title="Settings"
@@ -21,19 +16,27 @@ class ReviewScreen extends Component {
       />
     ),
     headerStyle: {
-      marginTop: Platform.OS === 'android' ? 24 : 0
+      marginTop: Platform.OS === 'android' ? 24 : 0,
     }
   });
 
   renderLikedJobs() {
     return this.props.likedJobs.map(job => {
-      const { company, formattedRelativeTime, url, longitude, latitude, jobtitle, jobkey } = job;
+      const {
+        company,
+        formattedRelativeTime,
+        url,
+        longitude,
+        latitude,
+        jobtitle,
+        jobkey,
+      } = job;
       const initialRegion = {
         longitude,
         latitude,
         longitudeDelta: 0.02,
-        latitudeDelta: 0.045
-      }
+        latitudeDelta: 0.045,
+      };
 
       return (
         <Card title={jobtitle} key={jobkey}>
@@ -55,8 +58,8 @@ class ReviewScreen extends Component {
             />
           </View>
         </Card>
-      )
-    })
+      );
+    });
   }
 
   render() {
@@ -73,17 +76,17 @@ const styles = {
     marginTop: 10,
     marginBottom: 10,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   italics: {
-    fontStyle: 'italic'
-  }
-}
+    fontStyle: 'italic',
+  },
+};
 
 const mapStateToProps = state => {
   return {
-    likedJobs: state.likedJobs
-  }
-}
+    likedJobs: state.likedJobs,
+  };
+};
 
 export default connect(mapStateToProps)(ReviewScreen);
